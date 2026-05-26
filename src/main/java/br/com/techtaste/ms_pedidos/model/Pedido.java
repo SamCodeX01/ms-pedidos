@@ -18,7 +18,6 @@ public class Pedido {
     private LocalDate data;
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.PERSIST)//mappedBy = "Oi JPA, não invente tabela nova. Olha ali no outro lado (na classe Item, no campo pedido), pega a chave estrangeira que já tem lá."
     private List<ItemPedido> itens = new ArrayList<>();
-    private Pedido pedido;
     private BigDecimal valorTotal;//O tipo BigDecimal é utilizado para evitar problemas de precisão em cálculos financeiros.
     @Enumerated(EnumType.STRING)//armazena no banco com o nome da constante do enum como string (por exemplo, PENDENTE, FINALIZADO), em vez de um índice ordinal.
     private Status status;
@@ -56,13 +55,7 @@ public class Pedido {
         this.itens = itens;
     }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
 
     public BigDecimal getValorTotal() {
         return valorTotal;
