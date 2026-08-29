@@ -1,7 +1,6 @@
 package br.com.techtaste.ms_pedidos.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,11 +15,15 @@ public class Pedido {
     private UUID id; //UUID = tipo de dado que representa um identificador único universal (Universally Unique Identifier) de 128 bits, gerado aleatoriamente ou a partir de informações como timestamp e endereço MAC. Exemplo: 550e8400-e29b-41d4-a716-446655440000, evita conflitos em sistemas distribuídos, pois a chance de dois UUIDs serem iguais é praticamente nula, muito usado em bancos de dados, chaves primárias de tabelas, sessões, mensageria, etc.
     private String cpf;
     private LocalDate data;
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.PERSIST)//mappedBy = "Oi JPA, não invente tabela nova. Olha ali no outro lado (na classe Item, no campo pedido), pega a chave estrangeira que já tem lá."
-    private List<ItemPedido> itens = new ArrayList<>();
+    private List<ItemPedido> itens = new ArrayList<>(); //Guarda VÁRIOS itens de uma vez só.
+
     private BigDecimal valorTotal;//O tipo BigDecimal é utilizado para evitar problemas de precisão em cálculos financeiros.
+
     @Enumerated(EnumType.STRING)//armazena no banco com o nome da constante do enum como string (por exemplo, PENDENTE, FINALIZADO), em vez de um índice ordinal.
     private Status status;
+
 
     public UUID getId() {
         return id;
@@ -51,11 +54,8 @@ public class Pedido {
     }
 
     public void setItens(List<ItemPedido> itens) {
-        itens.forEach(i -> i.setPedido(this));
         this.itens = itens;
     }
-
-
 
     public BigDecimal getValorTotal() {
         return valorTotal;
@@ -71,6 +71,10 @@ public class Pedido {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void calcularTotal(){
+        this.valorTotal = this.itens.stream().map(i -> i.getValorUnitario().multiply(BigDecimal.valueOf(i.getQuantidade()))).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
 /*Para que serve mappedBy?

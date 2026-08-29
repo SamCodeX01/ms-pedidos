@@ -8,7 +8,6 @@ public record PedidoRequestDto(String cpf, List<ItemPedido> itens) {
     /*Analisando nossa classe Pedido, por exemplo, ao cadastrar um novo pedido, não é nossa responsabilidade informar id, o status, o valor total e a data.
     Idealmente, só precisamos informar o cpf e a lista de itens que estamos pedindo. */
 
-
     /*O record em Java é um tipo especial de classe criado para armazenar dados de forma simples e concisa.
     Ele elimina a necessidade de escrever código repetitivo (boilerplate), gerando automaticamente os métodos essenciais para objetos de valor.
 
@@ -23,7 +22,12 @@ public record PedidoRequestDto(String cpf, List<ItemPedido> itens) {
 }
 
 
-
 /* DTO (Data Transfer Object)
 O que é: Um objeto simples (sem lógica) usado para transportar dados entre o Controller e o cliente (ou entre Controller e Service).
 Evita expor a entidade Model diretamente na API.*/
+
+
+/*Os DTOs (Data Transfer Objects) são objetos usados para transferir
+ dados entre diferentes camadas de uma aplicação ou entre aplicações diferentes,
+como cliente e servidor. Eles têm como principal objetivo encapsular dados de forma simples,
+garantindo que somente as informações necessárias sejam expostas ou transmitidas.*/
